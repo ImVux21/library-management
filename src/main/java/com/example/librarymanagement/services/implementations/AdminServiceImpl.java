@@ -14,8 +14,8 @@ public class AdminServiceImpl implements AdminService {
     private final BookRepository bookRepository;
 
     @Override
-    public ResponseEntity<Response> addBook(Book book) {
-        if (bookRepository.findByTitle(book.getTitle()) != null) {
+    public ResponseEntity<Response> addBook(Book bookRequest) {
+        if (bookRepository.findByTitle(bookRequest.getTitle()) != null) {
             throw new RuntimeException("Book was added into library");
         }
 
@@ -24,7 +24,7 @@ public class AdminServiceImpl implements AdminService {
                         .builder()
                         .status(200)
                         .message("Add book successfully!")
-                        .data(bookRepository.save(book))
+                        .data(bookRepository.save(bookRequest))
                         .build()
         );
     }

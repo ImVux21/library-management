@@ -1,5 +1,6 @@
 package com.example.librarymanagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,6 @@ public class Order {
     private int quantity;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 }

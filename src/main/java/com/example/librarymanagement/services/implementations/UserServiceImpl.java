@@ -40,9 +40,10 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         User currentUser = getUserByEmail(user.getEmail());
+        order.setUser(currentUser);
         currentUser.getOrders().add(order);
 
-        book.setSoldQuantity(book.getSoldQuantity() + 1);
+        book.setSoldQuantity(book.getSoldQuantity() + quantity);
 
         userRepository.save(currentUser);
         orderRepository.save(order);
@@ -63,10 +64,10 @@ public class UserServiceImpl implements UserService {
 
         review.setUser(currentUser);
         review.setBook(book);
-        reviewRepository.save(review);
 
         book.getReviews().add(review);
         bookRepository.save(book);
+        reviewRepository.save(review);
 
         return ResponseEntity.ok(
                 Response
@@ -94,7 +95,7 @@ public class UserServiceImpl implements UserService {
         currentUser.getOrders().remove(order);
 
         Book book = bookRepository.findByTitle(order.getBook().getTitle());
-        book.setSoldQuantity(order.getBook().getSoldQuantity() - 1);
+        book.setSoldQuantity(order.getBook().getSoldQuantity() - order.getQuantity());
 
         bookRepository.save(book);
         orderRepository.delete(order);

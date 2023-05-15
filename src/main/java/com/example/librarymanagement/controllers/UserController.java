@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/review-book/{id}")
-    public ResponseEntity<Response> reviewBook(@PathVariable Long id, Review review) {
+    public ResponseEntity<Response> reviewBook(@PathVariable Long id, @RequestBody Review review) {
         return userService.reviewBook(id, review, getCurrentUser());
     }
 

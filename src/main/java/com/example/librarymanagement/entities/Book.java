@@ -3,6 +3,7 @@ package com.example.librarymanagement.entities;
 import com.example.librarymanagement.dto.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
@@ -35,6 +37,6 @@ public class Book {
 
     private int soldQuantity;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
     private List<Review> reviews;
 }

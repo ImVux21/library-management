@@ -22,9 +22,7 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String firstName;
-
-    private String lastName;
+    private String name;
 
     private String email;
 

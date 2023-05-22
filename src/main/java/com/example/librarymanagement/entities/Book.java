@@ -26,16 +26,16 @@ public class Book {
 
     private String author;
 
-    private Date releaseYear;
+    private Integer releaseDate;
 
     private String description;
 
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    private int totalPageNum;
+    private Integer totalPageNum;
 
-    private int soldQuantity;
+    private Integer soldQuantity;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
     private List<Review> reviews;

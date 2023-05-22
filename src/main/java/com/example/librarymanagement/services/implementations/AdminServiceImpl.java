@@ -35,13 +35,13 @@ public class AdminServiceImpl implements AdminService {
                 .findById(id)
                 .orElseThrow(() -> new RuntimeException("Sách này không tồn tại!"));
 
-        oldBook.setTitle(book.getTitle());
-        oldBook.setAuthor(book.getAuthor());
-        oldBook.setCoverImage(book.getCoverImage());
-        oldBook.setReleaseYear(book.getReleaseYear());
-        oldBook.setDescription(book.getDescription());
-        oldBook.setCategory(book.getCategory());
-        oldBook.setTotalPageNum(book.getTotalPageNum());
+        if (book.getTitle() != null) oldBook.setTitle(book.getTitle());
+        if (book.getAuthor() != null) oldBook.setAuthor(book.getAuthor());
+        if (book.getCoverImage() != null) oldBook.setCoverImage(book.getCoverImage());
+        if (book.getReleaseDate() != null) oldBook.setReleaseDate(book.getReleaseDate());
+        if (book.getDescription() != null) oldBook.setDescription(book.getDescription());
+        if (book.getCategory() != null) oldBook.setCategory(book.getCategory());
+        if (book.getTotalPageNum() != null) oldBook.setTotalPageNum(book.getTotalPageNum());
 
         return ResponseEntity.ok(
                 Response.builder()

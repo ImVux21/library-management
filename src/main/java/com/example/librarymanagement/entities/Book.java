@@ -26,7 +26,7 @@ public class Book {
 
     private String author;
 
-    private Integer releaseDate;
+    private Date releaseDate;
 
     private String description;
 

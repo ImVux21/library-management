@@ -1,7 +1,19 @@
+
 package com.example.librarymanagement.entities;
 
 import com.example.librarymanagement.dto.Category;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.sql.Date;
+import java.util.List;
+
+
+import com.example.librarymanagement.dto.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,18 +39,18 @@ public class Book {
 
     private String author;
 
-    private Date releaseYear;
+    private Date releaseDate;
 
     private String description;
 
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    private int totalPageNum;
+    private Integer totalPageNum;
 
-    private int soldQuantity;
+    private Integer soldQuantity;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Review> reviews;
 }

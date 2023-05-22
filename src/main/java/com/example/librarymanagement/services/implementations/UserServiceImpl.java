@@ -26,12 +26,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String userEmail) {
-        return userRepository.findByEmail(userEmail).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findByEmail(userEmail).orElseThrow(() -> new RuntimeException("Người dùng không tồn tại!"));
     }
 
     @Override
     public ResponseEntity<Response> orderBook(Long id, int quantity, User user) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book haven't added"));
+        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Sách không tồn tại!"));
 
         Order order = Order
                 .builder()
@@ -53,14 +53,14 @@ public class UserServiceImpl implements UserService {
                 Response
                         .builder()
                         .status(200)
-                        .message("Order successfully!")
+                        .message("Đặt hàng thành công!")
                         .build()
         );
     }
 
     @Override
     public ResponseEntity<Response> reviewBook(Long id, Review review, User currentUser) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book haven't added"));
+        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Sách không tồn tại!"));
 
         review.setUser(currentUser);
         review.setBook(book);
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
                 Response
                         .builder()
                         .status(200)
-                        .message("Get order successfully!")
+                        .message("Lấy danh sách đặt hàng thành công!")
                         .data(currentUser.getOrders())
                         .build()
         );
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(currentUser);
 
         return ResponseEntity.ok(
-                Response.builder().status(200).message("Cancel order successfully").build()
+                Response.builder().status(200).message("Hủy đặt hàng thành công").build()
         );
     }
 }

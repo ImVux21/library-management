@@ -21,7 +21,7 @@ public class Order {
     @OneToOne
     private Book book;
 
-    private int quantity;
+    private Integer quantity;
 
     @ManyToOne
     @JsonIgnore

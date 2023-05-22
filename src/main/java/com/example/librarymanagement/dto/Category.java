@@ -5,17 +5,18 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public enum Category {
-    LANGUAGE("Ngôn ngữ"),
-    PHILOSOPHY("Triết học"),
-    SCIENCE("Khoa học"),
-    TECHNOLOGY("Công nghệ"),
-    ARTS("Mỹ thuật"),
-    HISTORY("Lịch sử"),
-    LITERATURE("Văn học");
 
-    String name;
+public enum Category {
+    FICTION,
+    NON_FICTION,
+    MYSTERY_THRILLER,
+    ROMANCE,
+    SCIENCE_FICTION,
+    FANTASY,
+    YOUNG_ADULT,
+    HISTORICAL_FICTION,
+    BIOGRAPHY_AUTOBIOGRAPHY,
+    SELF_HELP,
+    BUSINESS_FINANCE,
+    SCIENCE_POPULAR_SCIENCE
 }

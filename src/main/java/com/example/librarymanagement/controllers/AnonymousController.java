@@ -1,6 +1,7 @@
 package com.example.librarymanagement.controllers;
 
 import com.example.librarymanagement.dto.response.Response;
+import com.example.librarymanagement.entities.Book;
 import com.example.librarymanagement.services.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

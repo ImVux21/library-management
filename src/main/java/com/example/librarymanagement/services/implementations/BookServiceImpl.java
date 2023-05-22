@@ -19,7 +19,7 @@ public class BookServiceImpl implements BookService {
                 Response
                         .builder()
                         .status(200)
-                        .message("Get all books successfully!")
+                        .message("Lấy toàn bộ sách thành công!")
                         .data(bookRepository.findAll())
                         .build()
         );
@@ -29,13 +29,13 @@ public class BookServiceImpl implements BookService {
     public ResponseEntity<Response> viewBookDetails(Long id) {
         Book book = bookRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Book haven't added"));
+                .orElseThrow(() -> new RuntimeException("Sách không tồn tại!"));
 
         return ResponseEntity.ok(
                 Response
                         .builder()
                         .status(200)
-                        .message("Get book successfully!")
+                        .message("Lấy sách thành công!")
                         .data(book)
                         .build()
         );

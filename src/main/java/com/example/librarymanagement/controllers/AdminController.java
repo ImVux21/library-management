@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
     private final AdminService adminService;
 
-    @PostMapping("/add-book")
+    @PostMapping("/books")
     public ResponseEntity<Response> addBook(@RequestBody Book book) {
         return adminService.addBook(book);
     }
 
-    @PutMapping("/modify-book/{id}")
+    @PutMapping("/books/{id}")
     public ResponseEntity<Response> modifyBook(@RequestBody Book book, @PathVariable Long id) {
         return adminService.modifyBook(book, id);
     }
 
-    @DeleteMapping("/delete-book/{id}")
+    @DeleteMapping("/books/{id}")
     public ResponseEntity<Response> deleteBook(@PathVariable Long id) {
         return adminService.deleteBook(id);
     }

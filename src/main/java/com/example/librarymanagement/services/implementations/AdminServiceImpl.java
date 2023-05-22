@@ -16,14 +16,14 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public ResponseEntity<Response> addBook(Book bookRequest) {
         if (bookRepository.findByTitle(bookRequest.getTitle()) != null) {
-            throw new RuntimeException("Book was added into library");
+            throw new RuntimeException("Sách đã tồn tại trong thư viện");
         }
 
         return ResponseEntity.ok(
                 Response
                         .builder()
                         .status(200)
-                        .message("Add book successfully!")
+                        .message("Sách đã được thêm thành công!")
                         .data(bookRepository.save(bookRequest))
                         .build()
         );
@@ -33,20 +33,21 @@ public class AdminServiceImpl implements AdminService {
     public ResponseEntity<Response> modifyBook(Book book, Long id) {
         Book oldBook = bookRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Book haven't added"));
+                .orElseThrow(() -> new RuntimeException("Sách này không tồn tại!"));
 
-        oldBook.setTitle(book.getTitle());
-        oldBook.setAuthor(book.getAuthor());
-        oldBook.setCoverImage(book.getCoverImage());
-        oldBook.setReleaseYear(book.getReleaseYear());
-        oldBook.setDescription(book.getDescription());
-        oldBook.setCategory(book.getCategory());
-        oldBook.setTotalPageNum(book.getTotalPageNum());
+        if (book.getTitle() != null) oldBook.setTitle(book.getTitle());
+        if (book.getAuthor() != null) oldBook.setAuthor(book.getAuthor());
+        if (book.getCoverImage() != null) oldBook.setCoverImage(book.getCoverImage());
+        if (book.getReleaseDate() != null) oldBook.setReleaseDate(book.getReleaseDate());
+        if (book.getDescription() != null) oldBook.setDescription(book.getDescription());
+        if (book.getCategory() != null) oldBook.setCategory(book.getCategory());
+        if (book.getTotalPageNum() != null) oldBook.setTotalPageNum(book.getTotalPageNum());
 
+        bookRepository.save(oldBook);
         return ResponseEntity.ok(
                 Response.builder()
                         .status(200)
-                        .message("Modify book successfully!")
+                        .message("Cập nhật thông tin sách thành công")
                         .data(oldBook)
                         .build()
         );
@@ -56,11 +57,13 @@ public class AdminServiceImpl implements AdminService {
     public ResponseEntity<Response> deleteBook(Long id) {
         bookRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Book haven't added"));
+                .orElseThrow(() -> new RuntimeException("Sách không tồn tại!"));
+        bookRepository.deleteById(id);
+
         return ResponseEntity.ok(
                 Response.builder()
                         .status(200)
-                        .message("Delete successfully!")
+                        .message("Xóa thành công!")
                         .build()
         );
     }

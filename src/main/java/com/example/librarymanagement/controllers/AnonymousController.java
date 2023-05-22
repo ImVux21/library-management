@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class AnonymousController {
     private final BookService bookService;
 
-    @GetMapping("/view-all-books")
+    @GetMapping("/books")
     public ResponseEntity<Response> viewAllBooks() {
         return bookService.viewAllBooks();
     }
 
-    @GetMapping("/view-book-details/{id}")
+    @GetMapping("/books/{id}")
     public ResponseEntity<Response> viewBookDetails(@PathVariable Long id) {
         return bookService.viewBookDetails(id);
     }

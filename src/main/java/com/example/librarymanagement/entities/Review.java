@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -20,12 +22,12 @@ public class Review {
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
     @JsonIgnore
     private Book book;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
+
+
 }

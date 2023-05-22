@@ -4,6 +4,7 @@ import com.example.librarymanagement.dto.request.LoginRequest;
 import com.example.librarymanagement.dto.request.RegisterRequest;
 import com.example.librarymanagement.dto.response.LoginResponse;
 import com.example.librarymanagement.dto.response.Response;
+import com.example.librarymanagement.dto.response.UserInfoResponse;
 import com.example.librarymanagement.entities.User;
 import com.example.librarymanagement.repositories.UserRepository;
 import com.example.librarymanagement.services.AuthService;
@@ -73,7 +74,32 @@ public class AuthServiceImpl implements AuthService {
                         .builder()
                         .status(200)
                         .message("Login successfully!")
-                        .data(LoginResponse.builder().token(token).build())
+                        .data(LoginResponse.builder()
+                                .token(token)
+                                .name(user.getName())
+                                .email(user.getEmail())
+                                .role(user.getRole())
+                                .build()
+                        )
+                        .build()
+        );
+    }
+
+    @Override
+    public ResponseEntity<Response> getUserInfo(User user) {
+
+        return ResponseEntity.ok(
+                Response
+                        .builder()
+                        .status(200)
+                        .message("Get user info successfully!")
+                        .data(UserInfoResponse
+                                .builder()
+                                .name(user.getName())
+                                .email(user.getEmail())
+                                .role(user.getRole())
+                                .build()
+                        )
                         .build()
         );
     }

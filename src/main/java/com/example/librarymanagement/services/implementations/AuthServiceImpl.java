@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<Response> register(RegisterRequest registerRequest) {
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
-            throw new RuntimeException("User already exists");
+            throw new RuntimeException("Người dùng đã được đăng ký!");
         }
 
         User user = User
@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
                 Response
                         .builder()
                         .status(200)
-                        .message("Register successfully!")
+                        .message("Đăng ký thành công!")
                         .data(userRepository.save(user))
                         .build()
         );
@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<Response> login(LoginRequest loginRequest) {
         if (!userRepository.existsByEmail(loginRequest.getEmail())) {
-            throw new RuntimeException("Email is not registered!");
+            throw new RuntimeException("Email chưa được đăng ký!");
         }
 
         User user = userRepository.getByEmail(loginRequest.getEmail());
@@ -63,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
                     )
             );
         } catch (Exception e) {
-            throw new RuntimeException("Wrong password!");
+            throw new RuntimeException("Sai mật khẩu!");
         }
 
         String token = jwtService.generateToken(user);
@@ -72,7 +72,7 @@ public class AuthServiceImpl implements AuthService {
                 Response
                         .builder()
                         .status(200)
-                        .message("Login successfully!")
+                        .message("Đăng nhập thành công")
                         .data(LoginResponse.builder().token(token).build())
                         .build()
         );

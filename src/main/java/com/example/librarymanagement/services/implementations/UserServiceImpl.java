@@ -32,26 +32,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Response> orderBook(Long id, int quantity, User user) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Sách không tồn tại!"));
-
-        List<Order>  orders = user.getOrders();
-        boolean alreadyOrdered = orders.stream().anyMatch(order -> order.getBook().getId().equals(id));
-
-//        if (alreadyOrdered) {
-//            Order oldOrder = orders.stream().filter(order -> order.getBook().getId().equals(id)).findFirst().get();
-//            oldOrder.setQuantity(oldOrder.getQuantity() + quantity);
-//            orderRepository.save(oldOrder);
-//        } else {
-//            Order order = Order
-//                    .builder()
-//                    .book(book)
-//                    .quantity(quantity)
-//                    .user(user)
-//                    .build();
-//            orderRepository.save(order);
-//        }
-
 
         Order order = Order
                 .builder()
@@ -74,6 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Response> reviewBook(Long id, Review review, User currentUser) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Sách không tồn tại!"));
 
@@ -114,7 +98,7 @@ public class UserServiceImpl implements UserService {
         currentUser.getOrders().removeIf(o -> Objects.equals(o.getId(), id));
 
         Book book = bookRepository.findById(order.getBook().getId()).get();
-        book.setSoldQuantity(order.getBook().getSoldQuantity() - order.getQuantity());
+        book.setSoldQuantity(book.getSoldQuantity() - order.getQuantity());
 
         bookRepository.save(book);
         orderRepository.deleteById(id);

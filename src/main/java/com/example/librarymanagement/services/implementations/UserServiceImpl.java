@@ -87,6 +87,7 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.ok(
                 Response
                         .builder()
+                        .message("Đánh giá thành công!")
                         .status(200)
                         .build()
         );

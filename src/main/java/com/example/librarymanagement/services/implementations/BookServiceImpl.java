@@ -2,11 +2,14 @@ package com.example.librarymanagement.services.implementations;
 
 import com.example.librarymanagement.dto.response.Response;
 import com.example.librarymanagement.entities.Book;
+import com.example.librarymanagement.entities.Review;
 import com.example.librarymanagement.repositories.BookRepository;
 import com.example.librarymanagement.services.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +40,22 @@ public class BookServiceImpl implements BookService {
                         .status(200)
                         .message("Lấy sách thành công!")
                         .data(book)
+                        .build()
+        );
+    }
+
+    @Override
+    public ResponseEntity<Response> viewBookReviews(Long id) {
+        Book book = bookRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Sách không tồn tại!"));
+
+        return ResponseEntity.ok(
+                Response
+                        .builder()
+                        .status(200)
+                        .message("Lấy đánh giá của sách thành công!")
+                        .data(book.getReviews())
                         .build()
         );
     }

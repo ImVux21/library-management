@@ -8,4 +8,6 @@ public interface BookService {
     ResponseEntity<Response> viewAllBooks();
 
     ResponseEntity<Response> viewBookDetails(Long id);
+
+    ResponseEntity<Response> viewBookReviews(Long id);
 }

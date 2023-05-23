@@ -1,5 +1,6 @@
 package com.example.librarymanagement.entities;
 
+import com.example.librarymanagement.dto.response.UserInfoResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,8 +27,13 @@ public class Review {
     private Book book;
 
     @ManyToOne
-    @JsonIgnore
     private User user;
 
-
+    public UserInfoResponse getUser() {
+        return UserInfoResponse.builder()
+                .email(user.getEmail())
+                .name(user.getName())
+                .role(user.getRole())
+                .build();
+    }
 }

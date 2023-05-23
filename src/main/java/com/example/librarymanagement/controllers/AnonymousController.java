@@ -23,4 +23,9 @@ public class AnonymousController {
     public ResponseEntity<Response> viewBookDetails(@PathVariable Long id) {
         return bookService.viewBookDetails(id);
     }
+
+    @GetMapping("/books/{id}/review")
+    public ResponseEntity<Response> viewBookReviews(@PathVariable Long id) {
+        return bookService.viewBookReviews(id);
+    }
 }

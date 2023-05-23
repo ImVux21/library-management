@@ -28,7 +28,7 @@ public class User implements UserDetails {
 
     private String password;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER) // reverse owning side
     private List<Order> orders;
 
     private String role;

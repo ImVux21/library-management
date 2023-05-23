@@ -53,4 +53,11 @@ public class Book {
     @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Review> reviews;
+
+    public Integer getSoldQuantity() {
+        if (soldQuantity == null) {
+            return 0;
+        }
+        return soldQuantity;
+    }
 }

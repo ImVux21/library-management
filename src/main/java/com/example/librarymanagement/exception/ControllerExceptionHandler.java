@@ -14,6 +14,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Response> handleException(Exception exception) {
         return new ResponseEntity<>(
                 Response.builder().status(400).message(exception.getMessage()).build()
-        , HttpStatus.BAD_REQUEST);
+        , HttpStatus.OK);
     }
 }

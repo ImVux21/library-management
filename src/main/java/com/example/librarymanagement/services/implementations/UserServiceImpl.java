@@ -10,11 +10,13 @@ import com.example.librarymanagement.repositories.OrderRepository;
 import com.example.librarymanagement.repositories.ReviewRepository;
 import com.example.librarymanagement.repositories.UserRepository;
 import com.example.librarymanagement.services.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -33,20 +35,33 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Response> orderBook(Long id, int quantity, User user) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Sách không tồn tại!"));
 
+        List<Order>  orders = user.getOrders();
+        boolean alreadyOrdered = orders.stream().anyMatch(order -> order.getBook().getId().equals(id));
+
+//        if (alreadyOrdered) {
+//            Order oldOrder = orders.stream().filter(order -> order.getBook().getId().equals(id)).findFirst().get();
+//            oldOrder.setQuantity(oldOrder.getQuantity() + quantity);
+//            orderRepository.save(oldOrder);
+//        } else {
+//            Order order = Order
+//                    .builder()
+//                    .book(book)
+//                    .quantity(quantity)
+//                    .user(user)
+//                    .build();
+//            orderRepository.save(order);
+//        }
+
+
         Order order = Order
                 .builder()
                 .book(book)
                 .quantity(quantity)
+                .user(user)
                 .build();
-
-        User currentUser = getUserByEmail(user.getEmail());
-        order.setUser(currentUser);
-        currentUser.getOrders().add(order);
+        orderRepository.save(order);
 
         book.setSoldQuantity(book.getSoldQuantity() + quantity);
-
-        userRepository.save(currentUser);
-        orderRepository.save(order);
         bookRepository.save(book);
 
         return ResponseEntity.ok(
@@ -79,6 +94,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<Response> getOrder(User currentUser) {
+//        List<Order> orders = orderRepository.findAllByUser(currentUser);
         return ResponseEntity.ok(
                 Response
                         .builder()
@@ -90,19 +106,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Response> deleteOrder(User currentUser, Long id) {
-        Order order = currentUser.getOrders().stream().filter(o -> o.getId()==id).findFirst().get();
-        currentUser.getOrders().remove(order);
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Đơn hàng không tồn tại!"));
+        currentUser.getOrders().removeIf(o -> Objects.equals(o.getId(), id));
 
-        Book book = bookRepository.findByTitle(order.getBook().getTitle());
+        Book book = bookRepository.findById(order.getBook().getId()).get();
         book.setSoldQuantity(order.getBook().getSoldQuantity() - order.getQuantity());
 
         bookRepository.save(book);
-        orderRepository.delete(order);
+        orderRepository.deleteById(id);
         userRepository.save(currentUser);
 
         return ResponseEntity.ok(
-                Response.builder().status(200).message("Hủy đặt hàng thành công").build()
+                Response.builder()
+                        .status(200)
+                        .message("Hủy đặt hàng thành công")
+                        .build()
         );
     }
 }

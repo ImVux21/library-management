@@ -25,5 +25,5 @@ public class Order {
 
     @ManyToOne
     @JsonIgnore
-    private User user;
+    private User user; // owning side
 }
